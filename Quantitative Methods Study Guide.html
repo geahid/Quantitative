@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Guide – Quantitative Methods (All Lectures)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  /* ===== THEME VARIABLES ===== */
+  :root[data-theme="dark"] {
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --card: #1c2333;
+    --card-hover: #212840;
+    --border: rgba(255,255,255,0.07);
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --text-sub: #c9d1d9;
+    --gold: #f0c060;
+    --gold-dim: rgba(240,192,96,0.15);
+    --teal: #39d2a6;
+    --teal-dim: rgba(57,210,166,0.15);
+    --red: #f85149;
+    --red-dim: rgba(248,81,73,0.15);
+    --purple: #bc8cff;
+    --purple-dim: rgba(188,140,255,0.15);
+    --header-bg: #090d14;
+    --section-border: #f0c060;
+    --highlight-bg: rgba(240,192,96,0.18);
+    --table-head: #212840;
+    --table-even: rgba(255,255,255,0.03);
+    --scrollbar: #30363d;
+  }
+  :root[data-theme="light"] {
+    --bg: #fdf6ec;
+    --bg2: #f4ede0;
+    --card: #ffffff;
+    --card-hover: #f7f3ec;
+    --border: rgba(15,29,59,0.08);
+    --text: #0f1d3b;
+    --text-muted: #6b7a99;
+    --text-sub: #2b3a5a;
+    --gold: #c8960a;
+    --gold-dim: rgba(200,150,10,0.12);
+    --teal: #1a7f6e;
+    --teal-dim: #e8f4f1;
+    --red: #c0392b;
+    --red-dim: #fde8e8;
+    --purple: #5a3ea0;
+    --purple-dim: #eee8ff;
+    --header-bg: #0f1d3b;
+    --section-border: #e8b84b;
+    --highlight-bg: #fff3c2;
+    --table-head: #0f1d3b;
+    --table-even: #f9f7f4;
+    --scrollbar: #ccc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 3px; }
+
+  body {
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    transition: background 0.4s, color 0.4s;
+  }
+
+  /* ===== ANIMATED BACKGROUND PARTICLES ===== */
+  #particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+    10%  { opacity: 0.4; }
+    90%  { opacity: 0.15; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: var(--header-bg);
+    padding: 2.5rem 2rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .header-glow {
+    position: absolute;
+    top: -80px; left: 50%;
+    transform: translateX(-50%);
+    width: 400px; height: 200px;
+    background: radial-gradient(ellipse, rgba(240,192,96,0.18) 0%, transparent 70%);
+    animation: pulseGlow 4s ease-in-out infinite;
+  }
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+    50%       { opacity: 1;   transform: translateX(-50%) scale(1.15); }
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    color: #fff;
+    letter-spacing: 0.02em;
+    position: relative;
+    animation: slideDown 0.7s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  header p {
+    color: var(--gold);
+    font-size: 0.9rem;
+    margin-top: 0.4rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    position: relative;
+    animation: slideDown 0.8s 0.1s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* theme toggle */
+  .theme-toggle {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: var(--gold-dim);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+    z-index: 10;
+  }
+  .theme-toggle:hover { background: var(--gold); color: #000; }
+
+  /* ===== TABS ===== */
+  .tabs {
+    display: flex;
+    max-width: 860px;
+    margin: 2rem auto 0;
+    padding: 0 1rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    border-bottom: 3px solid transparent;
+    position: relative;
+    bottom: -1px;
+  }
+  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .tab-btn:hover:not(.active) { color: var(--text); }
+
+  /* ===== MAIN ===== */
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 1rem 5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ===== SECTION LABEL ===== */
+  .section-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--text);
+    margin: 2.2rem 0 0.9rem;
+    padding: 0.5rem 0.8rem;
+    border-left: 4px solid var(--section-border);
+    background: var(--gold-dim);
+    border-radius: 0 8px 8px 0;
+    animation: fadeInLeft 0.5s ease both;
+  }
+  @keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-16px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: var(--card);
+    border-radius: 14px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+    margin-bottom: 0.85rem;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    animation: cardIn 0.4s ease both;
+  }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(0,0,0,0.35); border-color: rgba(240,192,96,0.25); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+    gap: 1rem;
+  }
+  .card-header:hover { background: var(--card-hover); }
+  .card-title { font-weight: 600; font-size: 0.97rem; color: var(--text); flex: 1; }
+
+  .tag {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 0.22rem 0.6rem;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .tag-def     { background: var(--teal-dim);   color: var(--teal); }
+  .tag-example { background: var(--gold-dim);   color: var(--gold); }
+  .tag-types   { background: var(--purple-dim); color: var(--purple); }
+  .tag-key     { background: var(--red-dim);    color: var(--red); }
+
+  .chevron {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1);
+    flex-shrink: 0;
+  }
+  .card.open .chevron { transform: rotate(180deg); }
+
+  .card-body {
+    display: none;
+    padding: 0 1.2rem 1.2rem;
+    border-top: 1px solid var(--border);
+    animation: expandIn 0.25s ease both;
+  }
+  @keyframes expandIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .card.open .card-body { display: block; }
+  .card-body p, .card-body li { font-size: 0.92rem; line-height: 1.75; color: var(--text-sub); }
+  .card-body ul { padding-left: 1.3rem; margin-top: 0.5rem; }
+  .card-body li { margin-bottom: 0.35rem; }
+
+  .highlight {
+    background: var(--highlight-bg);
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* ===== TABLE ===== */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.9rem;
+    font-size: 0.86rem;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .compare-table th {
+    background: var(--table-head);
+    color: #fff;
+    padding: 0.55rem 0.8rem;
+    text-align: left;
+    font-weight: 600;
+  }
+  .compare-table td { padding: 0.45rem 0.8rem; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-sub); }
+  .compare-table tr:nth-child(even) td { background: var(--table-even); }
+  .yes { color: var(--teal); font-weight: 700; }
+  .no  { color: var(--red);  font-weight: 700; }
+
+  /* ===== FLASHCARD ===== */
+  .flashcard-area { margin-top: 1.5rem; }
+  .fc-progress { text-align: center; font-size: 0.83rem; color: var(--text-muted); margin-bottom: 1.2rem; font-weight: 500; }
+
+  .fc-scene { perspective: 1200px; margin: 0 auto; max-width: 600px; }
+  .flashcard {
+    background: transparent;
+    border-radius: 18px;
+    min-height: 240px;
+    cursor: pointer;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.22,1,0.36,1);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+  }
+  .flashcard.flipped { transform: rotateY(180deg); }
+
+  .fc-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    border: 1.5px solid var(--border);
+  }
+  .fc-front {
+    background: var(--card);
+    border-color: rgba(240,192,96,0.3);
+  }
+  .fc-back {
+    background: linear-gradient(135deg, #1a2744 0%, #1c3340 100%);
+    border-color: rgba(57,210,166,0.3);
+    transform: rotateY(180deg);
+  }
+
+  .fc-label {
+    position: absolute;
+    top: 0.9rem; left: 1.1rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .fc-front .fc-label { color: var(--gold); }
+  .fc-back  .fc-label { color: var(--teal); }
+
+  .fc-question {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .fc-answer {
+    font-size: 0.93rem;
+    color: #c9fbe9;
+    line-height: 1.75;
+    white-space: pre-line;
+  }
+  .fc-hint { font-size: 0.75rem; color: var(--text-muted); margin-top: 1.2rem; }
+
+  .fc-controls { display: flex; gap: 0.8rem; justify-content: center; margin-top: 1.4rem; flex-wrap: wrap; }
+
+  /* progress bar */
+  .fc-bar-wrap { height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 1.2rem; }
+  .fc-bar { height: 4px; background: var(--gold); border-radius: 2px; transition: width 0.4s ease; }
+
+  /* ===== BUTTONS ===== */
+  .btn {
+    padding: 0.6rem 1.4rem;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.88rem;
+    transition: all 0.18s;
+    letter-spacing: 0.03em;
+  }
+  .btn-primary { background: #2a3a6e; color: #fff; }
+  .btn-primary:hover { background: #3a4e8e; transform: translateY(-1px); }
+  .btn-gold { background: var(--gold); color: #0d1117; }
+  .btn-gold:hover { filter: brightness(1.1); transform: translateY(-1px); }
+  .btn-outline { background: transparent; border: 1.5px solid var(--text-muted); color: var(--text); }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-1px); }
+
+  /* ===== QUIZ ===== */
+  .quiz-intro { text-align: center; padding: 3rem 1rem; }
+  .quiz-intro h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 0.7rem; color: var(--text); }
+  .quiz-intro p { color: var(--text-muted); margin-bottom: 1.8rem; }
+
+  .quiz-q {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 1.4rem 1.4rem 1rem;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+    margin-bottom: 1.4rem;
+    border: 1px solid var(--border);
+    animation: cardIn 0.35s ease both;
+  }
+  .quiz-q-text { font-weight: 600; font-size: 0.97rem; margin-bottom: 1rem; line-height: 1.55; color: var(--text); }
+
+  .quiz-opt {
+    display: block;
+    padding: 0.65rem 0.95rem;
+    border-radius: 9px;
+    cursor: pointer;
+    margin-bottom: 0.45rem;
+    border: 1.5px solid var(--border);
+    font-size: 0.9rem;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-sub);
+    transition: all 0.15s;
+  }
+  .quiz-opt:hover { background: var(--gold-dim); border-color: var(--gold); color: var(--text); }
+  .quiz-opt.correct { background: var(--teal-dim); border-color: var(--teal); color: var(--teal); font-weight: 600; pointer-events: none; }
+  .quiz-opt.wrong   { background: var(--red-dim);  border-color: var(--red);  color: var(--red);  pointer-events: none; }
+  .quiz-opt.disabled { pointer-events: none; opacity: 0.5; }
+  .quiz-feedback { font-size: 0.86rem; margin-top: 0.7rem; padding: 0.55rem 0.9rem; border-radius: 8px; line-height: 1.5; }
+  .quiz-feedback.ok  { background: var(--teal-dim); color: var(--teal); }
+  .quiz-feedback.bad { background: var(--red-dim);  color: var(--red); }
+
+  .quiz-score {
+    text-align: center;
+    background: linear-gradient(135deg, #0d2040 0%, #0d3030 100%);
+    color: #fff;
+    border-radius: 18px;
+    padding: 2.5rem;
+    margin-top: 1rem;
+    border: 1px solid rgba(240,192,96,0.2);
+    animation: popIn 0.4s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  .quiz-score h2 { font-family: 'Playfair Display', serif; font-size: 2rem; }
+  .quiz-score p  { color: rgba(255,255,255,0.7); margin-top: 0.5rem; }
+  .big-score { font-size: 3.5rem; font-weight: 900; color: var(--gold); display: block; margin: 0.6rem 0; animation: countUp 0.5s ease; }
+  @keyframes countUp {
+    from { transform: scale(0.5); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+  }
+
+  /* ===== RIPPLE on card click ===== */
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: rippleAnim 0.5s linear;
+    background: rgba(240,192,96,0.2);
+    pointer-events: none;
+  }
+  @keyframes rippleAnim {
+    to { transform: scale(4); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating particles -->
+<div id="particles"></div>
+
+<header>
+  <div class="header-glow"></div>
+  <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">☀ Light</button>
+  <h1>Oral Recitation Study Guide</h1>
+  <p>Quantitative Methods · Lectures 1, 2, 3 &amp; 4</p>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('notes',event)">📖 Notes</button>
+    <button class="tab-btn" onclick="switchTab('flashcards',event)">🃏 Flashcards</button>
+    <button class="tab-btn" onclick="switchTab('quiz',event)">✏️ Quiz</button>
+  </div>
+</header>
+
+<main>
+
+<!-- ===================== NOTES TAB ===================== -->
+<div id="tab-notes" class="tab-content active">
+
+  <!-- LECTURE 1 -->
+  <p class="section-label">Lecture 1 – Introduction to Quantitative Methods</p>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">What are Quantitative Methods?</span>
+      <span class="tag tag-def">Definition</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p><span class="highlight">Quantitative methods</span> involve the process of collecting, analyzing, and interpreting <em>numerical data</em> to understand phenomena and make predictions. They provide a structured approach to studying relationships, patterns, and trends within datasets.</p>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">Importance of Quantitative Methods (4 Reasons)</span>
+      <span class="tag tag-key">Key Concept</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><span class="highlight">Objectivity</span> – minimizes bias and subjectivity by relying on numerical data and statistical analyses.</li>
+        <li><span class="highlight">Precision and Accuracy</span> – enables precise measurement and accurate representation for reliable conclusions.</li>
+        <li><span class="highlight">Generalizability</span> – findings can often be generalized to larger populations beyond the sampled data.</li>
+        <li><span class="highlight">Predictive Power</span> – identifies patterns and relationships that allow for predictions and forecasting of future outcomes.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">Key Components of Quantitative Methods</span>
+      <span class="tag tag-types">Types</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><span class="highlight">Research Design</span> – formulating research questions, selecting methodologies, designing experiments or surveys.</li>
+        <li><span class="highlight">Data Collection</span> – gathering data through surveys, experiments, observations, or secondary sources.</li>
+        <li><span class="highlight">Statistical Analysis</span> – applying descriptive and inferential statistical techniques to the data.</li>
+        <li><span class="highlight">Interpretation &amp; Reporting</span> – communicating findings in context through reports, presentations, or visualizations.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">Common Quantitative Methods</span>
+      <span class="tag tag-types">Types</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><span class="highlight">Descriptive Statistics</span> – mean, median, mode, standard deviation; summarize data distributions and central tendencies.</li>
+        <li><span class="highlight">Inferential Statistics</span> – hypothesis testing, regression analysis, ANOVA; draw conclusions about populations from sample data.</li>
+        <li><span class="highlight">Experimental Design</span> – manipulates independent variables to observe effects on dependent variables while controlling extraneous factors.</li>
+        <li><span class="highlight">Survey Research</span> – questionnaires or interviews to understand attitudes, behaviors, and opinions within a population.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">Challenges and Considerations</span>
+      <span class="tag tag-key">Key Concept</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><span class="highlight">Sampling Bias</span> – samples must be representative of the population to avoid biased results.</li>
+        <li><span class="highlight">Data Quality</span> – accuracy, reliability, and validity of data are essential for meaningful conclusions.</li>
+        <li><span class="highlight">Ethical Considerations</span> – researchers must ensure participant confidentiality and informed consent.</li>
+        <li><span class="highlight">Interpretation Limitations</span> – interpretations should acknowledge uncertainties and assumptions.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- LECTURE 2 -->
+  <p class="section-label">Lecture 2 – Overview of Statistics</p>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">What is Statistics &amp; Data?</span>
+      <span class="tag tag-def">Definition</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p><span class="highlight">Data</span> – information from observations, counts, measurements, or responses.</p>
+      <p style="margin-top:0.5rem"><span class="highlight">Statistics</span> – the science of <em>collecting, organizing, analyzing, and interpreting</em> data to make decisions.</p>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">Population vs. Sample</span>
+      <span class="tag tag-def">Definition</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><span class="highlight">Population</span> – the <em>entire</em> collection of outcomes, responses, or measurements of interest.</li>
+        <li><span class="highlight">Sample</span> – a <em>subset</em> of the population.</li>
+      </ul>
+      <p style="margin-top:0.7rem"><strong>Example:</strong> 250 college students surveyed out of all students → the 250 are the <em>sample</em>; all students are the <em>population</em>.</p>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">Parameter vs. Statistic</span>
+      <span class="tag tag-key">Key Concept</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><span class="highlight">Parameter</span> – numerical description of a <em>population</em> characteristic.</li>
+        <li><span class="highlight">Statistic</span> – numerical description of a <em>sample</em> characteristic.</li>
+      </ul>
+      <p style="margin-top:0.7rem">Memory trick: <strong>P</strong>arameter → <strong>P</strong>opulation &nbsp;|&nbsp; <strong>S</strong>tatistic → <strong>S</strong>ample</p>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">Descriptive vs. Inferential Statistics</span>
+      <span class="tag tag-types">Types</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><span class="highlight">Descriptive</span> – organizes, summarizes, and displays data (charts, tables, averages).</li>
+        <li><span class="highlight">Inferential</span> – uses a sample to draw conclusions about a population.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">Types of Data: Qualitative &amp; Quantitative</span>
+      <span class="tag tag-types">Types</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><span class="highlight">Qualitative</span> – non-numerical; categories/labels (e.g., gender, color, name).</li>
+        <li><span class="highlight">Quantitative</span> – numerical measurements or counts (e.g., GPA, weight, age).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">Four Levels of Measurement</span>
+      <span class="tag tag-key">Key Concept</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <table class="compare-table">
+        <tr><th>Level</th><th>Key Property</th><th>Example</th></tr>
+        <tr><td><strong>Nominal</strong></td><td>Categories only, no order</td><td>Gender, colors</td></tr>
+        <tr><td><strong>Ordinal</strong></td><td>Ordered, but unequal gaps</td><td>Class rank, ratings (1–5)</td></tr>
+        <tr><td><strong>Interval</strong></td><td>Equal gaps, no true zero</td><td>Temperature (°C), years</td></tr>
+        <tr><td><strong>Ratio</strong></td><td>Equal gaps + true zero</td><td>Weight, age, GPA</td></tr>
+      </table>
+      <table class="compare-table" style="margin-top:0.8rem">
+        <tr><th>Level</th><th>Categorize</th><th>Order</th><th>Subtract</th><th>Ratio</th></tr>
+        <tr><td>Nominal</td><td class="yes">✓</td><td class="no">✗</td><td class="no">✗</td><td class="no">✗</td></tr>
+        <tr><td>Ordinal</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td><td class="no">✗</td></tr>
+        <tr><td>Interval</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">✗</td></tr>
+        <tr><td>Ratio</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">Independent vs. Dependent Variables</span>
+      <span class="tag tag-def">Definition</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><span class="highlight">Independent Variable</span> – causes or influences the other variable; can be manipulated.</li>
+        <li><span class="highlight">Dependent Variable</span> – the outcome; changes in response to the independent variable.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">Sampling Techniques</span>
+      <span class="tag tag-types">Types</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><span class="highlight">Stratified</span> – members from each segment (e.g., freshmen, sophomores, etc.).</li>
+        <li><span class="highlight">Cluster</span> – all members from randomly selected groups (e.g., city blocks).</li>
+        <li><span class="highlight">Systematic</span> – every nth member selected after a random start.</li>
+        <li><span class="highlight">Convenience</span> – uses only readily available members.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- LECTURE 3 -->
+  <p class="section-label">Lecture 3 – Statistics (Quantitative Methods)</p>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">What is Statistics? (Lecture 3 definition)</span>
+      <span class="tag tag-def">Definition</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Statistics involves using sample data to <em>predict, estimate,</em> and support <em>managerial decision-making</em>. It refers to scientific methods by which data are collected, organized, presented, and analyzed.</p>
+      <p style="margin-top:0.6rem">A <span class="highlight">statistic</span> is a number calculated from <em>sample</em> data describing a characteristic of that sample. A <span class="highlight">parameter</span> is a number calculated from <em>population</em> data.</p>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">Purposes of Statistics</span>
+      <span class="tag tag-key">Key Concept</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li>To <strong>summarize</strong> findings</li>
+        <li>To <strong>visualize</strong> results</li>
+        <li>To <strong>extract information</strong> from data</li>
+        <li>To <strong>communicate</strong> the findings</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">Qualitative vs. Quantitative Variables (Lecture 3)</span>
+      <span class="tag tag-types">Types</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><span class="highlight">Quantitative</span> – numerical values (further split into <em>discrete</em> and <em>continuous</em>).</li>
+        <li><span class="highlight">Qualitative</span> – non-numerical observations representing categories.</li>
+        <li><span class="highlight">Discrete</span> – countable whole numbers (e.g., number of students).</li>
+        <li><span class="highlight">Continuous</span> – measurable, can take any value in a range (e.g., height, temperature).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">Representative Sample &amp; Random Sampling</span>
+      <span class="tag tag-def">Definition</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>A <span class="highlight">representative sample</span> accurately reflects the population it is drawn from. It requires <strong>random sampling</strong>, which ensures every subset has the same chance of being included.</p>
+    </div>
+  </div>
+
+  <!-- LECTURE 4 -->
+  <p class="section-label">Lecture 4 – Statistical Data</p>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">Sources of Data: Primary vs. Secondary</span>
+      <span class="tag tag-def">Definition</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><span class="highlight">Primary Data</span> – collected directly from the source (e.g., salaries obtained from the HR department or payroll office).</li>
+        <li><span class="highlight">Secondary Data</span> – obtained from secondary sources such as books, journals, newspapers, magazines, and prior research studies.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">5 Methods of Gathering Data</span>
+      <span class="tag tag-types">Types</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><span class="highlight">Survey</span> – pen-and-paper or web-based questionnaires; can yield both qualitative and quantitative data.</li>
+        <li><span class="highlight">Interview</span> – commonly collects qualitative data; conducted face-to-face, by telephone, or via digital platforms.</li>
+        <li><span class="highlight">Observation</span> – records the dynamics of events or situations, and frequency of specific behaviors or attributes.</li>
+        <li><span class="highlight">Experimentation</span> – controlled study to understand cause-and-effect relationships between variables.</li>
+        <li><span class="highlight">Review of Documents/Records</span> – data gathered from minutes of meetings, attendance records, written reports, and financial records.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">Data Representation: Organize → Present → Interpret</span>
+      <span class="tag tag-key">Key Concept</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Raw data must be organized and presented using <span class="highlight">tabular</span> and <span class="highlight">graphical methods</span> before it can be properly interpreted.</p>
+      <p style="margin-top:0.6rem">The three steps: <strong>Organize Data → Present Data → Interpret Data</strong></p>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">Frequency Distribution Table (Ungrouped &amp; Grouped)</span>
+      <span class="tag tag-key">Key Concept</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>A <span class="highlight">frequency distribution</span> shows how often each value or class occurs.</p>
+      <p style="margin-top:0.6rem"><strong>Steps for Grouped Data:</strong></p>
+      <ul>
+        <li>Find the <span class="highlight">Range (R)</span> = Highest value − Lowest value.</li>
+        <li>Find the <span class="highlight">Class Interval (I)</span> = R ÷ number of desired classes (round to nearest whole number).</li>
+        <li>Set up classes starting from the lowest; starting point must be divisible by the interval.</li>
+        <li>Tally data into each class and count the frequency (f).</li>
+        <li>Compute the <span class="highlight">Class Midpoint</span> = (Lower limit + Upper limit) ÷ 2.</li>
+      </ul>
+      <p style="margin-top:0.6rem"><strong>Example:</strong> Salaries ₱23,000–₱43,000 → R = 20,000; 5 classes → I = 4,000.</p>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">Types of Graphs: Line, Bar, Histogram, Pie</span>
+      <span class="tag tag-types">Types</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <table class="compare-table">
+        <tr><th>Graph Type</th><th>Best Used For</th><th>Example</th></tr>
+        <tr><td><strong>Line Graph</strong></td><td>Trends or changes over time</td><td>Enrollment 2009–2018</td></tr>
+        <tr><td><strong>Bar Graph</strong></td><td>Discrete/categorical data comparison</td><td>Students' sports preferences</td></tr>
+        <tr><td><strong>Histogram</strong></td><td>Frequency distribution (grouped data)</td><td>Teacher salary ranges</td></tr>
+        <tr><td><strong>Pie Chart</strong></td><td>Proportions/percentages of a whole</td><td>World population by religion</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" onclick="toggleCard(this, event)">
+    <div class="card-header">
+      <span class="card-title">How to Interpret Graphs</span>
+      <span class="tag tag-example">Example</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li><strong>Line Graph:</strong> Identify years of marked increase/decrease, peak points, and future trends.</li>
+        <li><strong>Bar Graph:</strong> Identify which category is highest/lowest and compare groups.</li>
+        <li><strong>Histogram:</strong> Identify which class range has the highest frequency and describe distribution shape.</li>
+        <li><strong>Pie Chart:</strong> Express each slice as a percentage and rank categories from largest to smallest.</li>
+      </ul>
+      <p style="margin-top:0.6rem"><strong>Key Example:</strong> Enrollment peaked in 2015 at ~1,700 then declined, suggesting external influences on enrollment rates.</p>
+    </div>
+  </div>
+
+</div><!-- end notes -->
+
+<!-- ===================== FLASHCARDS TAB ===================== -->
+<div id="tab-flashcards" class="tab-content">
+  <div class="flashcard-area">
+    <p class="fc-progress" id="fc-counter">Card 1 of 20</p>
+    <div class="fc-bar-wrap"><div class="fc-bar" id="fc-bar" style="width:5%"></div></div>
+    <div class="fc-scene">
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="fc-face fc-front">
+          <span class="fc-label">QUESTION</span>
+          <div class="fc-question" id="fc-q"></div>
+          <p class="fc-hint">Tap to flip ↩</p>
+        </div>
+        <div class="fc-face fc-back">
+          <span class="fc-label">ANSWER</span>
+          <div class="fc-answer" id="fc-a"></div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-controls">
+      <button class="btn btn-outline" onclick="fcNav(-1)">← Prev</button>
+      <button class="btn btn-gold" onclick="flipCard()">Flip</button>
+      <button class="btn btn-primary" onclick="fcNav(1)">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== QUIZ TAB ===================== -->
+<div id="tab-quiz" class="tab-content">
+  <div class="quiz-intro" id="quiz-intro">
+    <h2>Test Yourself</h2>
+    <p>16 multiple-choice questions covering all four lectures.</p>
+    <button class="btn btn-gold" onclick="startQuiz()">Start Quiz →</button>
+  </div>
+  <div id="quiz-body" style="display:none"></div>
+</div>
+
+</main>
+
+<script>
+// ===== PARTICLES =====
+(function(){
+  const container = document.getElementById('particles');
+  const colors = ['#f0c060','#39d2a6','#bc8cff','#f85149'];
+  for(let i=0;i<18;i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random()*5+3;
+    p.style.cssText = `
+      width:${size}px;height:${size}px;
+      left:${Math.random()*100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${Math.random()*15+12}s;
+      animation-delay:${Math.random()*10}s;
+    `;
+    container.appendChild(p);
+  }
+})();
+
+// ===== THEME TOGGLE =====
+function toggleTheme(){
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themeBtn').textContent = isDark ? '🌙 Dark' : '☀ Light';
+}
+
+// ===== TABS =====
+function switchTab(name, event){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ===== CARD TOGGLE with ripple =====
+function toggleCard(el, event){
+  // ripple effect
+  const header = el.querySelector('.card-header');
+  const rect = header.getBoundingClientRect();
+  const ripple = document.createElement('span');
+  ripple.className = 'ripple';
+  const size = Math.max(rect.width, rect.height);
+  ripple.style.cssText = `width:${size}px;height:${size}px;left:${(event.clientX||rect.left+rect.width/2)-rect.left-size/2}px;top:${(event.clientY||rect.top+rect.height/2)-rect.top-size/2}px`;
+  header.style.position='relative';
+  header.style.overflow='hidden';
+  header.appendChild(ripple);
+  setTimeout(()=>ripple.remove(),500);
+  el.classList.toggle('open');
+}
+
+// ===== FLASHCARDS =====
+const flashcards = [
+  { q:"What are quantitative methods?", a:"The process of collecting, analyzing, and interpreting numerical data to understand phenomena and make predictions." },
+  { q:"Name the 4 reasons quantitative methods are important.", a:"1. Objectivity\n2. Precision and Accuracy\n3. Generalizability\n4. Predictive Power" },
+  { q:"What are the 4 key components of quantitative methods?", a:"1. Research Design\n2. Data Collection\n3. Statistical Analysis\n4. Interpretation & Reporting" },
+  { q:"What is the difference between Experimental Design and Survey Research?", a:"Experimental Design manipulates independent variables in a controlled setting. Survey Research uses questionnaires or interviews to gather data from a sample." },
+  { q:"Name 4 challenges in quantitative research.", a:"1. Sampling Bias\n2. Data Quality\n3. Ethical Considerations\n4. Interpretation Limitations" },
+  { q:"What is the difference between a population and a sample?", a:"A population is the entire collection of interest. A sample is a subset of that population." },
+  { q:"What is the difference between a parameter and a statistic?", a:"A parameter describes a population characteristic. A statistic describes a sample characteristic.\nMemory trick: Parameter → Population | Statistic → Sample." },
+  { q:"Name the two major branches of statistics.", a:"1. Descriptive statistics – organizes, summarizes, and displays data.\n2. Inferential statistics – uses a sample to draw conclusions about a population." },
+  { q:"What are the four levels of measurement (lowest to highest)?", a:"Nominal → Ordinal → Interval → Ratio" },
+  { q:"What is the key difference between Interval and Ratio level?", a:"Ratio has an absolute (true) zero, so you can form meaningful ratios (e.g., 40 kg is twice 20 kg). Interval has no true zero (e.g., 0°C does not mean 'no temperature')." },
+  { q:"What are the four sampling techniques?", a:"1. Stratified – from each segment\n2. Cluster – all members from randomly chosen groups\n3. Systematic – every nth member\n4. Convenience – readily available members" },
+  { q:"What are the four purposes of statistics?", a:"1. Summarize findings\n2. Visualize results\n3. Extract information from data\n4. Communicate the findings" },
+  { q:"Distinguish between discrete and continuous quantitative variables.", a:"Discrete – countable whole numbers (e.g., number of children).\nContinuous – can take any value in a range, including decimals (e.g., height, weight)." },
+  { q:"What is the difference between primary and secondary data?", a:"Primary data is collected directly from the source.\nSecondary data comes from existing sources like books, journals, or prior research." },
+  { q:"Name the 5 methods of gathering data.", a:"1. Survey\n2. Interview\n3. Observation\n4. Experimentation\n5. Review of Documents/Records" },
+  { q:"How do you compute the class interval (I) for grouped data?", a:"Class Interval (I) = Range ÷ Number of desired classes.\nRange = Highest value − Lowest value." },
+  { q:"How do you compute the class midpoint?", a:"Class Midpoint = (Lower class limit + Upper class limit) ÷ 2.\nExample: Class 42,000–46,000 → Midpoint = (42,000 + 46,000) ÷ 2 = 44,000" },
+  { q:"Which graph type is best for showing trends over time?", a:"Line Graph – connects plotted points with straight lines to show trends, patterns, or changes over time." },
+  { q:"What is a histogram and how does it differ from a bar graph?", a:"A histogram uses adjacent bars to represent frequency distributions of grouped/continuous data. A bar graph uses separated bars to compare discrete or categorical data." },
+  { q:"What is a frequency distribution table?", a:"An arrangement of data that shows how often each value or class interval occurs, typically including the class, tally, frequency, and class midpoint." },
+];
+
+let fcIndex=0, fcFlipped=false;
+
+function renderCard(){
+  const c = flashcards[fcIndex];
+  document.getElementById('fc-q').textContent = c.q;
+  document.getElementById('fc-a').textContent = c.a;
+  document.getElementById('fc-counter').textContent = `Card ${fcIndex+1} of ${flashcards.length}`;
+  document.getElementById('fc-bar').style.width = ((fcIndex+1)/flashcards.length*100)+'%';
+  const el=document.getElementById('flashcard');
+  el.classList.remove('flipped');
+  fcFlipped=false;
+}
+
+function flipCard(){
+  const el=document.getElementById('flashcard');
+  fcFlipped=!fcFlipped;
+  el.classList.toggle('flipped',fcFlipped);
+}
+
+function fcNav(dir){
+  fcIndex=(fcIndex+dir+flashcards.length)%flashcards.length;
+  renderCard();
+}
+
+renderCard();
+
+// ===== QUIZ =====
+const questions=[
+  { q:"Which of the following is NOT a reason why quantitative methods are important?", opts:["Objectivity","Predictive Power","Subjectivity","Generalizability"], ans:2, exp:"Quantitative methods are valued because they minimize subjectivity, not promote it." },
+  { q:"Quantitative methods are best described as:", opts:["Collecting opinions from focus groups","Collecting, analyzing, and interpreting numerical data","Qualitative analysis of text and behavior","Random guessing about trends"], ans:1, exp:"Quantitative methods involve the structured collection and analysis of numerical data." },
+  { q:"Which component involves applying descriptive and inferential techniques to collected data?", opts:["Research Design","Data Collection","Statistical Analysis","Interpretation & Reporting"], ans:2, exp:"Statistical Analysis is the step where techniques like mean, regression, or ANOVA are applied." },
+  { q:"Experimental Design differs from Survey Research in that it:", opts:["Uses questionnaires","Manipulates independent variables in a controlled setting","Collects qualitative data only","Relies on secondary sources"], ans:1, exp:"Experimental design involves controlling variables to observe cause-and-effect relationships." },
+  { q:"A survey of 300 students found the average study time is 4 hours/day. This value is a:", opts:["Population parameter","Sample statistic","Census result","Qualitative data"], ans:1, exp:"It's based on a sample of 300, so it's a sample statistic." },
+  { q:"Which level of measurement has equal intervals but NO true zero?", opts:["Nominal","Ordinal","Interval","Ratio"], ans:2, exp:"Interval level has equal gaps but no absolute zero (e.g., temperature in Celsius)." },
+  { q:"Class standing (Freshman, Sophomore, Junior, Senior) is an example of which level?", opts:["Nominal","Ordinal","Interval","Ratio"], ans:1, exp:"It has order/ranking but the intervals between levels are not equal — that's ordinal." },
+  { q:"A researcher randomly selects every 5th person on a list. This is:", opts:["Stratified sampling","Cluster sampling","Systematic sampling","Convenience sampling"], ans:2, exp:"Selecting every nth member is systematic sampling." },
+  { q:"Which branch of statistics draws conclusions about a population from a sample?", opts:["Descriptive statistics","Inferential statistics","Exploratory statistics","Applied statistics"], ans:1, exp:"Inferential statistics makes inferences or predictions about the population." },
+  { q:"The number of children in a household is a ___ variable.", opts:["Continuous quantitative","Discrete quantitative","Qualitative","Nominal"], ans:1, exp:"Children must be whole numbers (can't have 2.5 children), so it's discrete quantitative." },
+  { q:"All households in Davao City are surveyed about electricity consumption. This is a:", opts:["Sample","Statistic","Census","Cluster sample"], ans:2, exp:"A census measures the entire population — every household was included." },
+  { q:"A variable that causes a change in another variable is called:", opts:["Dependent variable","Qualitative variable","Independent variable","Continuous variable"], ans:2, exp:"The independent variable causes or influences the dependent variable." },
+  { q:"Salaries obtained directly from a payroll office are an example of:", opts:["Secondary data","Primary data","Inferential data","Ordinal data"], ans:1, exp:"Primary data is collected directly from the source, such as a payroll office." },
+  { q:"Which data gathering method is commonly used to collect qualitative data through personal interaction?", opts:["Survey","Experimentation","Interview","Review of records"], ans:2, exp:"Interviews — whether face-to-face, telephone, or digital — are primarily used for qualitative data." },
+  { q:"Given: Highest salary = ₱43,000; Lowest = ₱23,000; 5 desired classes. What is the class interval?", opts:["₱3,000","₱4,000","₱5,000","₱2,000"], ans:1, exp:"Range = 43,000 − 23,000 = 20,000. Class Interval = 20,000 ÷ 5 = 4,000." },
+  { q:"Which graph is most appropriate for showing the frequency distribution of grouped salary data?", opts:["Line Graph","Pie Chart","Bar Graph","Histogram"], ans:3, exp:"A histogram uses adjacent bars to display the frequency of grouped/continuous data like salary ranges." },
+];
+
+let quizAnswers=[], quizSubmitted=[];
+
+function startQuiz(){
+  document.getElementById('quiz-intro').style.display='none';
+  quizAnswers=new Array(questions.length).fill(null);
+  quizSubmitted=new Array(questions.length).fill(false);
+  renderQuiz();
+  document.getElementById('quiz-body').style.display='block';
+}
+
+function renderQuiz(){
+  const body=document.getElementById('quiz-body');
+  body.innerHTML='';
+  questions.forEach((q,qi)=>{
+    const div=document.createElement('div');
+    div.className='quiz-q';
+    div.style.animationDelay=(qi*0.05)+'s';
+    div.innerHTML=`<div class="quiz-q-text">${qi+1}. ${q.q}</div>`;
+    q.opts.forEach((opt,oi)=>{
+      const btn=document.createElement('button');
+      btn.className='quiz-opt';
+      btn.textContent=opt;
+      btn.onclick=()=>answerQ(qi,oi);
+      div.appendChild(btn);
+    });
+    const fb=document.createElement('div');
+    fb.id=`fb-${qi}`;
+    div.appendChild(fb);
+    body.appendChild(div);
+  });
+  const scoreBtn=document.createElement('div');
+  scoreBtn.style.cssText='text-align:center;margin-top:1.5rem;';
+  scoreBtn.innerHTML=`<button class="btn btn-gold" onclick="showScore()">Submit All &amp; See Score</button>`;
+  body.appendChild(scoreBtn);
+}
+
+function answerQ(qi,oi){
+  if(quizSubmitted[qi]) return;
+  quizSubmitted[qi]=true;
+  quizAnswers[qi]=oi;
+  const q=questions[qi];
+  const qDiv=document.querySelectorAll('.quiz-q')[qi];
+  qDiv.querySelectorAll('.quiz-opt').forEach((btn,idx)=>{
+    if(idx===q.ans) btn.classList.add('correct');
+    else if(idx===oi&&oi!==q.ans) btn.classList.add('wrong');
+    else btn.classList.add('disabled');
+  });
+  const fb=document.getElementById(`fb-${qi}`);
+  fb.className='quiz-feedback '+(oi===q.ans?'ok':'bad');
+  fb.textContent=(oi===q.ans?'✓ Correct! ':'✗ Incorrect. ')+q.exp;
+}
+
+function showScore(){
+  const correct=quizAnswers.filter((a,i)=>a===questions[i].ans).length;
+  const total=questions.length;
+  const pct=Math.round(correct/total*100);
+  const msg=pct>=80?"Excellent! You're ready to recite! 🎉":pct>=60?"Good effort — review the tricky ones.":"Keep reviewing — you've got this! 💪";
+  const scoreDiv=document.createElement('div');
+  scoreDiv.className='quiz-score';
+  scoreDiv.innerHTML=`<h2>Quiz Complete!</h2><span class="big-score">${correct}/${total}</span><p>${pct}% · ${msg}</p><br><br><button class="btn btn-gold" onclick="restartQuiz()">Try Again</button>`;
+  document.getElementById('quiz-body').appendChild(scoreDiv);
+  scoreDiv.scrollIntoView({behavior:'smooth'});
+}
+
+function restartQuiz(){
+  document.getElementById('quiz-body').style.display='none';
+  document.getElementById('quiz-intro').style.display='block';
+}
+</script>
+</body>
+</html>
